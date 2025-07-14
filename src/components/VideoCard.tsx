@@ -18,7 +18,7 @@ export default function VideoCard({ name, linkid, link }: VideoCardProps) {
       try {
         const res = await fetch(`/api/thumbnail?file=${linkid}`, { cache: 'no-store' });
         const data = await res.json();
-        setThumbnailUrl(data?.result);
+        setThumbnailUrl(data);
       } catch (error) {
         console.error('Thumbnail fetch failed', error);
       }
