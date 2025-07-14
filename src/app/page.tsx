@@ -1,29 +1,32 @@
 'use client';
 
 import { useStreamtapeList } from '@/hooks/useStreamtape';
-import type { StreamtapeFile, StreamtapeFolder } from '@/types/streamtape';
+import { VideoGrid } from '@/components/VideoGrid';
+import { useState } from 'react';
 
 export default function HomePage() {
-  const { folders, files, isLoading, isError } = useStreamtapeList();
+  const { files, isLoading, isError } = useStreamtapeList();
+  const [visibleCount, setVisibleCount] = useState(6);
 
-  if (isLoading) return <p>Loading...</p>;
-  if (isError) return <p>Failed to load data</p>;
+  const visibleFiles = files.slice(0, visibleCount);
 
   return (
-    <div>
-      <h2 className="text-xl font-bold">Folders</h2>
-      <ul>
-        {folders.map((f: StreamtapeFolder) => (
-          <li key={f.id}>{f.name}</li>
-        ))}
-      </ul>
+    <>
+      <h1 className="text-3xl font-bold mb-6">Latest Videos</h1>
 
-      <h2 className="text-xl font-bold mt-4">Files</h2>
-      <ul>
-        {files.map((f: StreamtapeFile) => (
-          <li key={f.linkid}>{f.name}</li>
-        ))}
-      </ul>
-    </div>
+      {isLoading && <p>Loading...</p>}
+      {isError && <p className="text-red-500">Failed to load videos.</p>}
+
+      <VideoGrid files={visibleFiles} />
+
+      {visibleCount < files.length && (
+        <button
+          className="mt-6 mx-auto block bg-gray-800 text-white py-2 px-4 rounded hover:bg-gray-700 transition"
+          onClick={() => setVisibleCount((prev) => prev + 6)}
+        >
+          Load More
+        </button>
+      )}
+    </>
   );
 }
