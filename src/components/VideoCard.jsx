@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-const FALLBACK_IMAGE = '/fallback.gif'; // Place fallback.jpg inside public/
+const FALLBACK_IMAGE = '/fallback.gif'; // Ensure fallback.gif is in public/
 
 export default function VideoCard({ video, refProp }) {
   const [thumbnail, setThumbnail] = useState('');
@@ -22,19 +22,24 @@ export default function VideoCard({ video, refProp }) {
   }, [video.linkid]);
 
   return (
-    <div ref={refProp} className="bg-white rounded-xl shadow-md overflow-hidden">
+    <div
+      ref={refProp}
+      className="bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-lg transition overflow-hidden"
+    >
       <img
         src={thumbnail || FALLBACK_IMAGE}
         alt={video.name}
         className="w-full h-48 object-cover"
       />
       <div className="p-4">
-        <h2 className="text-lg font-semibold truncate">{video.name}</h2>
+        <h2 className="text-lg font-semibold truncate text-gray-900 dark:text-gray-100">
+          {video.name}
+        </h2>
         <a
           href={video.link}
           target="_blank"
           rel="noreferrer"
-          className="inline-block mt-2 text-sm text-blue-600 hover:underline"
+          className="inline-block mt-2 text-sm text-blue-600 dark:text-blue-400 hover:underline"
         >
           Watch Video
         </a>
