@@ -1,7 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  images: {
+    domains: ['thumb.tapecontent.net', 'amazing-axolotl-e79527.netlify.app'],
+  },
 };
 
 export default nextConfig;

@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
   try {
   const res = await fetch(apiUrl);
   const data = await res.json();
-  return NextResponse.json(data);
+  return NextResponse.json(data.result);
 } catch {
   return NextResponse.json({ error: 'Failed to fetch thumbnail' }, { status: 500 });
 }
