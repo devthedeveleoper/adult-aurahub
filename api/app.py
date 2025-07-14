@@ -8,7 +8,7 @@ load_dotenv()
 
 app = Flask(__name__)
 
-CORS(app, origins=["https://raatrani.netlify.app", "http://localhost:5173"])
+CORS(app, origins=["https://porn.aurahub.fun", "https://raatrani.netlify.app", "http://localhost:5173"])
 
 STREAMTAPE_LOGIN = os.getenv("STREAMTAPE_LOGIN")
 STREAMTAPE_KEY = os.getenv("STREAMTAPE_KEY")
