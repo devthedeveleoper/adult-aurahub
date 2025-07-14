@@ -1,4 +1,3 @@
-// /src/app/api/files/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(req: NextRequest) {
@@ -15,10 +14,11 @@ export async function GET(req: NextRequest) {
   const apiUrl = `https://api.streamtape.com/file/listfolder?login=${login}&key=${key}&folder=${folder}`;
 
   try {
-    const res = await fetch(apiUrl);
-    const data = await res.json();
-    return NextResponse.json(data);
-  } catch (err) {
-    return NextResponse.json({ error: 'Failed to fetch files' }, { status: 500 });
-  }
+  const res = await fetch(apiUrl);
+  const data = await res.json();
+  return NextResponse.json(data);
+} catch {
+  return NextResponse.json({ error: 'Failed to fetch files' }, { status: 500 });
+}
+
 }
