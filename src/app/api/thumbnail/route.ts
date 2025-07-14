@@ -9,6 +9,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: 'File ID is required' }, { status: 400 });
   }
 
+  // Serve from cache if available
   if (cache[file]) {
     return NextResponse.json({ result: cache[file] });
   }
@@ -28,7 +29,7 @@ export async function GET(req: NextRequest) {
     }
 
     return NextResponse.json({ result: url });
-  } catch (err) {
+  } catch {
     return NextResponse.json({ error: 'Failed to fetch thumbnail' }, { status: 500 });
   }
 }
