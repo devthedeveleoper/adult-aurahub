@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import os
 import requests
 from dotenv import load_dotenv
@@ -6,6 +7,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = Flask(__name__)
+
+CORS(app, origins=["https://raatrani.netlify.app", "http://localhost:5173"])
 
 STREAMTAPE_LOGIN = os.getenv("STREAMTAPE_LOGIN")
 STREAMTAPE_KEY = os.getenv("STREAMTAPE_KEY")
