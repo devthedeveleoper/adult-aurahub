@@ -19,26 +19,38 @@ export default function Home() {
 
   // ✅ Fetch video list from API or cache
   useEffect(() => {
-    const cached = localStorage.getItem('video_cache');
-    const cacheTime = localStorage.getItem('video_cache_time');
-    const expired = !cacheTime || Date.now() - cacheTime > 60000;
-
-    if (!cached || expired) {
-      fetch('https://adult-aurahub.onrender.com/api/files')
-        .then((res) => res.json())
-        .then((data) => {
-          const files = data.result?.files || [];
-          setAllVideos(files);
-          localStorage.setItem('video_cache', JSON.stringify(files));
-          localStorage.setItem('video_cache_time', Date.now().toString());
-        })
-        .catch((e) => console.error('Error fetching files:', e))
-        .finally(() => setLoading(false));
-    } else {
-      setAllVideos(JSON.parse(cached));
-      setLoading(false);
+  const shuffleArray = (array) => {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
-  }, []);
+    return shuffled;
+  };
+
+  const cached = localStorage.getItem('video_cache');
+  const cacheTime = localStorage.getItem('video_cache_time');
+  const expired = !cacheTime || Date.now() - cacheTime > 60000;
+
+  if (!cached || expired) {
+    fetch('https://adult-aurahub.onrender.com/api/files')
+      .then((res) => res.json())
+      .then((data) => {
+        const files = data.result?.files || [];
+        const shuffled = shuffleArray(files);
+        setAllVideos(shuffled);
+        localStorage.setItem('video_cache', JSON.stringify(shuffled));
+        localStorage.setItem('video_cache_time', Date.now().toString());
+      })
+      .catch((e) => console.error('Error fetching files:', e))
+      .finally(() => setLoading(false));
+  } else {
+    const parsed = JSON.parse(cached);
+    setAllVideos(shuffleArray(parsed));
+    setLoading(false);
+  }
+}, []);
+
 
   // ✅ Sorting logic
   const sortVideos = useCallback((videos) => {
