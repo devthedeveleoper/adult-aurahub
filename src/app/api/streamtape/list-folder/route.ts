@@ -10,7 +10,10 @@ export async function GET(req: NextRequest) {
     const response = NextResponse.json(data);
     response.headers.set('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=30');
     return response;
-  } catch (error: any) {
+  } catch (error: unknown) {
+  if (error instanceof Error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
+  return NextResponse.json({ error: 'Unknown error' }, { status: 500 });
+}
 }
